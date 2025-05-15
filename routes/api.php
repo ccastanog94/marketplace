@@ -10,6 +10,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('products', ProductController::class);
 });
 
+Route::get('/test', function () {
+    return response()->json(['message' => 'API funcionando 🎉']);
+});
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
