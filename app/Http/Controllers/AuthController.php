@@ -27,7 +27,7 @@ class AuthController extends Controller
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
-        
+
         return response()->json(['message' => 'Register OK']);
         /*return response()->json([
             'access_token' => $token,
@@ -53,6 +53,11 @@ class AuthController extends Controller
         $request->user()->tokens()->delete();
 
         return response()->json(['message' => 'Sesión cerrada']);
+    }
+
+    public function profile(Request $request)
+    {
+        return response()->json($request->user());
     }
 }
 
