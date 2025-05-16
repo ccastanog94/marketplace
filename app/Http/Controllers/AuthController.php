@@ -11,7 +11,10 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $validated = $request->validate([
+        
+        return response()->json(['message' => 'Register OK']);
+        
+        /*$validated = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6'
@@ -28,7 +31,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
-        ]);
+        ]);*/
     }
 
     public function login(Request $request)
