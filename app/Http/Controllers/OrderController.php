@@ -18,37 +18,38 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'items' => 'required|array|min:1',
-            'items.*.product_id' => 'required|exists:products,id',
-            'items.*.quantity' => 'required|integer|min:1',
-        ]);
-
-        $total = 0;
-        $items = [];
-
-        foreach ($request->items as $item) {
-            $product = \App\Models\Product::findOrFail($item['product_id']);
-            $total += $product->price * $item['quantity'];
-
-            $items[] = [
-                'product_id' => $product->id,
-                'quantity' => $item['quantity'],
-                'price' => $product->price,
-            ];
+        $user = $request->user();
+    
+        $cartItems = $user->cartItems()->with('product')->get();
+    
+        if ($cartItems->isEmpty()) {
+            return response()->json(['message' => 'Tu carrito está vacío.'], 400);
         }
-
+    
+        $total = $cartItems->sum(function ($item) {
+            return $item->product->price * $item->quantity;
+        });
+    
         $order = Order::create([
-            'user_id' => Auth::id(),
+            'user_id' => $user->id,
             'total' => $total,
-            'status' => 'pending',
         ]);
-
-        foreach ($items as $item) {
-            $item['order_id'] = $order->id;
-            OrderItem::create($item);
+    
+        foreach ($cartItems as $item) {
+            $order->items()->create([
+                'product_id' => $item->product_id,
+                'quantity' => $item->quantity,
+            ]);
         }
-
-        return response()->json(['message' => 'Orden creada exitosamente', 'order' => $order->load('items.product')]);
+    
+        // Opcional: vaciar carrito después de crear orden
+        $user->cartItems()->delete();
+    
+        return response()->json([
+            'message' => 'Orden creada exitosamente',
+            'order_id' => $order->id,
+            'total' => $total
+        ]);
     }
+    
 }
