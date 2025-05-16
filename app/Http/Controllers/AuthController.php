@@ -12,9 +12,9 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         
-        return response()->json(['message' => 'Register OK']);
         
-        /*$validated = $request->validate([
+        
+        $validated = $request->validate([
             'name' => 'required|string',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6'
@@ -27,8 +27,9 @@ class AuthController extends Controller
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
+        
+        return response()->json(['message' => 'Register OK']);
+        /*return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
         ]);*/
