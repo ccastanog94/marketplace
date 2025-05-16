@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartItemController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::apiResource('products', ProductController::class);
@@ -22,6 +23,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::apiResource('products', ProductController::class);
+    Route::get('/cart', [CartItemController::class, 'index']);
+    Route::post('/cart', [CartItemController::class, 'store']);
+    Route::delete('/cart/{id}', [CartItemController::class, 'destroy']);
 });
 
 /*
