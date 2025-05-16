@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
+
 
 class ProductController extends Controller
 {
@@ -50,10 +53,9 @@ class ProductController extends Controller
         return Product::findOrFail($id);
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateProductRequest $request, Product $product)
     {
-        $product = Product::findOrFail($id);
-        $product->update($request->all());
+        $product->update($request->validated());
         return response()->json($product);
     }
 
