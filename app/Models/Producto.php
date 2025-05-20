@@ -9,6 +9,8 @@ class Producto extends Model
 {
     use HasFactory;
 
+    protected $table = 'products'; // <- nombre real de la tabla
+    
     protected $fillable = [
         'name',
         'description',
@@ -16,4 +18,3 @@ class Producto extends Model
         'stock',
     ];
 }
-    
