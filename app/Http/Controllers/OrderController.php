@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Product;
 
 class OrderController extends Controller
 {
@@ -39,6 +40,7 @@ class OrderController extends Controller
             $order->items()->create([
                 'product_id' => $item->product_id,
                 'quantity' => $item->quantity,
+                'price' => $product->price,
             ]);
         }
     
