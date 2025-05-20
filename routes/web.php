@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,8 @@ Route::get('/', function () {
 });
 
 Route::get('/productos', [ProductController::class, 'index']);
+Route::get('/productos', [ProductoController::class, 'index']);
+
+Route::post('/carrito/agregar/{id}', function () {
+    return back()->with('mensaje', 'Producto agregado (simulado)');
+})->name('carrito.agregar');
