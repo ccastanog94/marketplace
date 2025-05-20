@@ -10,7 +10,7 @@ class ProductoController extends Controller
     //
     public function index()
     {
-        $productos = Producto::all(); // obtener todos los productos
-        return view('productos', compact('productos'));
+        $products = Producto::all(); // obtener todos los productos
+        return view('products', compact('products'));
     }
 }
